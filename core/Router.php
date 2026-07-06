@@ -13,6 +13,9 @@ class Router {
         // Define o método baseado no segundo parâmetro da URL
         $methodName = ucfirst($urlParts[1]) ? $urlParts[1] : 'index';
 
+        // Captura ID se existir
+        $id = isset($urlParts[2]) ? $urlParts[2] : null;
+
         $controllerFile = "controllers/$controllerName.php";
 
         if (file_exists($controllerFile)) {
@@ -20,7 +23,7 @@ class Router {
             $controller = new $controllerName();
 
             if (method_exists($controller, $methodName)) {
-                $controller->$methodName();
+                $controller->$methodName($id);
             } else {
                 die("Erro 404: Ação ou Método '$methodName' não existe no controlador.");
             }

@@ -4,6 +4,7 @@
         <span class="badge badge-gold px-3 py-2">FIFA Global Roster</span>
     </div>
     <div class="card-body p-0">
+        <a href="?url=jogador/ativos" class="btn btn-sm btn-info m-2">Jogadores Ativos</a>
         <div class="table-responsive">
             <table class="table table-hover m-0 align-middle">
                 <thead class="table-dark">

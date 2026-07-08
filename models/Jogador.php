@@ -29,4 +29,21 @@ class Jogador {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getRelatorioAtivos() 
+    {
+        $sql = "SELECT 
+                    j.nome,
+                    j.posicao,
+                    s.pais
+                FROM Jogador j
+                INNER JOIN Selecao s ON j.id_selecao = s.id_selecao
+                WHERE j.ativo = 1 AND s.ativo = 1
+                ORDER BY j.nome DESC";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

@@ -41,9 +41,6 @@ class SelecaoController {
         $model = new Selecao();
         $selecao = $model->getById($id);
 
-        print_r($selecao);
-        exit;
-
         require_once "views/template/header.php";
         require_once "views/selecao_form.php";
         require_once "views/template/footer.php";

@@ -9,7 +9,7 @@ class Selecao {
 
     public function getAll() 
     {
-        $sql = "SELECT * FROM Selecao ORDER BY grupo, pais ASC";
+        $sql = "SELECT * FROM Selecao WHERE ativo = 1 ORDER BY grupo, pais ASC";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
 
@@ -60,11 +60,21 @@ class Selecao {
 
     public function delete($id)
     {
-        $sql = "DELETE FROM Selecao WHERE id_selecao = :id";
-        
-        $stmt = $this->db->prepare($sql);
-        
-        $stmt->bindParam(":id", $id);
-        $stmt->execute();
+        try {
+
+            $this->db->beginTransaction();
+
+            $stmtSel = $this->db->prepare("UPDATE Selecao SET ativo = 0 WHERE id_selecao = :id");
+            $stmtSel->execute(['id' => $id]);
+
+            $stmtJog = $this->db->prepare("UPDATE Jogador SET ativo = 0 WHERE id_selecao = :id");
+            $stmtJog->execute(['id' => $id]);
+
+            $this->db->commit();
+
+        } catch (Exception $e) {
+            $this->db->rollBack();
+            die("Erro ao inativar a seleção de Jogadores: {$e->getMessage()}");
+        }
     }
 }
